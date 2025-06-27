@@ -7,17 +7,18 @@ export const navBarItems = [
     path: "/",
     icon: LayoutDashboard,
   },
+
   {
     id: "statistique",
     label: "Statistique",
     path: "/statistique",
     icon: BarChart,
   },
+
   {
     id: "rapport",
     label: "Rapport",
     path: "/rapport",
     icon: FileText,
   },
- 
 ];

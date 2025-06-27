@@ -14,45 +14,41 @@ import {
   Legend,
 } from "recharts";
 
+const wasteConfig = {
+  metal: { dangerous: false, recyclable: true },
+  trash: { dangerous: false, recyclable: false },
+  plastic: { dangerous: false, recyclable: true },
+  organic: { dangerous: false, recyclable: true },
+  medical: { dangerous: true, recyclable: false },
+  glass: { dangerous: false, recyclable: true },
+  "e-waste": { dangerous: true, recyclable: false },
+  clothes: { dangerous: false, recyclable: true },
+  carton: { dangerous: false, recyclable: true },
+  battery: { dangerous: true, recyclable: false },
+};
+
 const Statistique = () => {
   const [wasteData, setWasteData] = useState([]);
 
-  const simulatedData = [
-    { nom: "plastic", nombre: 420 },
-    { nom: "metal", nombre: 100 },
-    { nom: "medical", nombre: 200 },
-    { nom: "carton", nombre: 80 },
-    { nom: "e-waste", nombre: 220 },
-    { nom: "clothes", nombre: 305 },
-    { nom: "glass", nombre: 150 },
-    { nom: "organic", nombre: 180 },
-    { nom: "battery", nombre: 45 },
-    { nom: "trash", nombre: 250 },
-  ];
-
-  const wasteConfig = {
-    metal: { dangerous: false, recyclable: true },
-    trash: { dangerous: false, recyclable: false },
-    plastic: { dangerous: false, recyclable: true },
-    organic: { dangerous: false, recyclable: true },
-    medical: { dangerous: true, recyclable: false },
-    glass: { dangerous: false, recyclable: true },
-    "e-waste": { dangerous: true, recyclable: false },
-    clothes: { dangerous: false, recyclable: true },
-    carton: { dangerous: false, recyclable: true },
-    battery: { dangerous: true, recyclable: false },
-  };
-
   useEffect(() => {
-    const processed = simulatedData.map((item) => {
-      const config = wasteConfig[item.nom];
-      return {
-        ...item,
-        recyclable: config ? config.recyclable : false,
-        dangerous: config ? config.dangerous : false,
-      };
-    });
-    setWasteData(processed);
+    const savedWaste = localStorage.getItem("wasteData");
+    if (savedWaste) {
+      const rawData = JSON.parse(savedWaste);
+
+      const processed = rawData.map((item) => {
+        const config = wasteConfig[item.nom] || {
+          dangerous: false,
+          recyclable: false,
+        };
+        return {
+          ...item,
+          recyclable: config.recyclable,
+          dangerous: config.dangerous,
+        };
+      });
+
+      setWasteData(processed);
+    }
   }, []);
 
   const recyclableCount = wasteData
@@ -72,13 +68,13 @@ const Statistique = () => {
     .reduce((sum, item) => sum + item.nombre, 0);
 
   return (
-    <div className="p-1 text-white space-y-4">
-      <h1 className="text-2xl font-bold">Statistiques Visuelles</h1>
+    <div className="p-1 space-y-4">
+      <h1 className="text-2xl font-bold text-center">Statistiques Visuelles</h1>
 
       {/* Pie Chart */}
       <div className="grid grid-cols-2 gap-3">
         <div className="bg-gray-900/30 p-6 rounded-xl border border-gray-700">
-          <h2 className="text-lg font-semibold mb-4">Recyclabilité</h2>
+          <h2 className="text-lg font-semibold mb-4 text-center">Recyclabilité</h2>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -104,8 +100,8 @@ const Statistique = () => {
 
         {/* Radial Chart */}
         <div className="bg-red-900/30 p-6 rounded-xl border border-red-700">
-          <h2 className="text-lg font-semibold mb-4">
-            Déchets Dangereux vs Sûrs
+          <h2 className="text-lg font-semibold mb-4 text-center">
+            Déchets Dangereux vs Non Dangereux
           </h2>
           <ResponsiveContainer width="100%" height={300}>
             <RadialBarChart
@@ -116,7 +112,7 @@ const Statistique = () => {
               barSize={20}
               data={[
                 { name: "Dangereux", value: dangerousCount, fill: "#dc2626" },
-                { name: "Sûr", value: safeCount, fill: "#10b981" },
+                { name: "Non Dangereux", value: safeCount, fill: "#10b981" },
               ]}
             >
               <RadialBar background clockWise dataKey="value" />
@@ -133,14 +129,14 @@ const Statistique = () => {
       </div>
 
       {/* Bar Chart */}
-      <div className="bg-teal-900/30 p-6 rounded-xl border border-teal-700">
-        <h2 className="text-lg font-semibold mb-4">
+      <div className="bg-teal-900/30 p-6 rounded-xl border border-teal-700 ">
+        <h2 className="text-lg font-semibold mb-4 text-center">
           Quantité par type de déchet
         </h2>
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="70%" height={300}>
           <BarChart data={wasteData}>
-            <XAxis dataKey="nom" stroke="#94a3b8" />
-            <YAxis stroke="#94a3b8" />
+            <XAxis dataKey="nom" stroke="#0c0b0b" />
+            <YAxis stroke="#0c0b0b" />
             <Tooltip />
             <Bar dataKey="nombre" fill="#14b8a6" />
           </BarChart>

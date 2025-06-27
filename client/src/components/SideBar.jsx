@@ -1,25 +1,34 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link,  useLocation } from "react-router-dom";
 import { navBarItems } from "../assets/navBarItems";
-import { ChevronDown } from "lucide-react";
 
 const SideBar = () => {
   const location = useLocation();
 
   return (
     <div className="flex h-screen bg-gray-100">
-      <div className="w-72 bg-gradient-to-b from-teal-600 to-teal-700 text-white flex flex-col shadow-xl">
+      <div className="w-72 bg-gradient-to-b from-[#a4161a] to-red-800 text-white flex flex-col shadow-xl">
         {/* Logo Section */}
-        <div className="p-6 border-b border-teal-500/30">
-          <div className="flex items-center space-x-3">
-            <div className="bg-white/10 p-2 rounded-xl backdrop-blur-sm">
-              <div className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold">WasteTector</h1>
-              <p className="text-teal-200 text-sm">Your Smart Waste Detector</p>
+        <Link to={"/"}>
+          <div className="p-6 border-b border-red-500/30">
+            <div className="flex items-center space-x-3">
+              <div className="bg-white p-2 rounded-xl backdrop-blur-sm">
+                <div className="w-14 h-9">
+                  <img
+                    src="../../public/wastetector-removebg-preview.png"
+                    alt="logo"
+                    className="h-full w-full"
+                  />
+                </div>
+              </div>
+              <div>
+                <h1 className="text-xl font-bold">WasTector</h1>
+                <p className="text-red-200 text-sm">
+                  Your Smart Waste Detector
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        </Link>
 
         {/* Navigation Menu */}
         <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
@@ -46,10 +55,15 @@ const SideBar = () => {
         <Link to={"/profile"}>
           <div className="p-4 border-t border-teal-500/30">
             <div className="flex items-center space-x-3 p-3 rounded-lg bg-white/10">
-              <div className="bg-white/20 p-2 rounded-full w-10 h-10" />
+              <div className="bg-white   w-16 ">
+                <img
+                  src="https://www.redal.ma/sites/g/files/dvc3366/files/styles/logo_mobile_retina/public/Logo.jpg?itok=Aa4PVbse"
+                  alt="redal"
+                />
+              </div>
               <div className="flex-1">
                 <p className="text-sm font-medium">Station Redal</p>
-                <p className="text-xs text-teal-200">station redal sale</p>
+                <p className="text-xs text-red-200">station redal Harhoura</p>
               </div>
             </div>
           </div>
